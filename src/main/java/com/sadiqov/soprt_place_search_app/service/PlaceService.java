@@ -18,12 +18,36 @@ public class PlaceService {
     private PlaceMapper placeMapper;
 
     @Transactional(readOnly = true)
-    public List<PlaceResponse> getPlacesByName(String name) {
-        List<Place> places = placeRepository.findByNameContainingIgnoreCase(name);
+    public List<PlaceResponse> searchPlaces(String searchTerm) {
+        List<Place> places;
+
+        if (searchTerm != null && !searchTerm.trim().isEmpty()) {
+            places = placeRepository.searchPlaces(searchTerm.trim());
+        } else {
+            places = placeRepository.findAll();
+        }
+
         places.forEach(place -> {
             place.getSchedules().size();
-            place.getCategory().getName();
+            if (place.getCategory() != null) {
+                place.getCategory().getName();
+            }
         });
+
+        return placeMapper.toResponseList(places);
+    }
+
+    @Transactional(readOnly = true)
+    public List<PlaceResponse> searchByScoreRange(Integer minScore, Integer maxScore) {
+        List<Place> places = placeRepository.searchByScoreRange(minScore, maxScore);
+
+        places.forEach(place -> {
+            place.getSchedules().size();
+            if (place.getCategory() != null) {
+                place.getCategory().getName();
+            }
+        });
+
         return placeMapper.toResponseList(places);
     }
 
