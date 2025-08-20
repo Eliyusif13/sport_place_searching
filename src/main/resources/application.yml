@@ -1,0 +1,28 @@
+server:
+  port: 8081
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/sports_places
+    username: postgres
+    password: myuser
+
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+    time-zone: Asia/Baku
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate.format_sql: true
+      hibernate.jdbc.time_zone: UTC
+
+
+logging:
+  level:
+    org.hibernate.SQL: warn
+
+
